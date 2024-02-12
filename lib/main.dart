@@ -68,17 +68,25 @@ class _HomeState extends State<Home> {
                             controller: city,
                             decoration: InputDecoration(
                                    hintText: "Search Here ",
-                                   hintStyle: TextStyle(color:  Color(0xFF20578C),fontSize: 15),
+                                   hintStyle: TextStyle(color:
+
+                                   Color(0xFF20578C),
+                                       fontSize: 15),
 
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
-                                  borderSide:BorderSide(width: 2,color: Color(0xFF20578C))),
+                                  borderSide:BorderSide(width: 4,
+                                    color : Colors.grey.withOpacity(0.5),
+
+                                  )),
 
                                   focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Color(0xFF20578C)),
+                                  borderSide: BorderSide(color:Colors.grey.withOpacity(0.5),),
+
+
                               ),
                                    suffixIcon: IconButton(color: Color(0xFF20578C),
                                          onPressed: (){
@@ -91,7 +99,9 @@ class _HomeState extends State<Home> {
                           ),
                       ),
 
-                      SizedBox(height: 40,),
+                      Container(
+                          child:  Text(" Last Updated at " + DateFormat.jm().format(DateTime.parse((snapshot.data?.list.elementAt(0).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
+                          height: 40),
 
                       Container(
                         height: 300,
@@ -103,27 +113,18 @@ class _HomeState extends State<Home> {
                         ),
 
                         child:
-                       Padding(
-                         padding: const EdgeInsets.only(top: 10,bottom: 15),
-                         child: Column(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("${snapshot.data?.city.name}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 35)),
+                       Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(" ${snapshot.data?.city.name}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 32)),
 
-                            //Row(
-                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //  children: [
-                                Text(DateFormat('EEEE').format(DateTime.parse((snapshot.data?.list.elementAt(0).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                            //    Text("${toDate(snapshot.data?.list.elementAt(0).dt_txt).hour}")
-                           //   ],
-                          //  ),
-                            Text("Main Temp ${(snapshot.data!.list.elementAt(0).main.temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                            Text("min:${(snapshot.data!.list.elementAt(0).main.temp_min - 273.15).round()}\u2103 / max:${(snapshot.data!.list.elementAt(0).main.temp_max - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                            Image.network(
-                              'https://openweathermap.org/img/wn/${snapshot.data?.list.elementAt(0).weather.first.icon}@2x.png'),
-                            Text("${snapshot.data?.list.elementAt(0).weather.first.description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                                         ],),
-                       ),),
+                          Text(DateFormat.MMMMEEEEd().format(DateTime.parse((snapshot.data?.list.elementAt(0).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
+                          Text(" ${(snapshot.data!.list.elementAt(0).main.temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25)),
+                          Text("min:${(snapshot.data!.list.elementAt(0).main.temp_min - 273.15).round()}\u2103 / max:${(snapshot.data!.list.elementAt(0).main.temp_max - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
+                          Image.network(
+                            'https://openweathermap.org/img/wn/${snapshot.data?.list.elementAt(0).weather.first.icon}@2x.png'),
+                          Text("${snapshot.data?.list.elementAt(0).weather.first.description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
+                                       ],),),
                       SizedBox(height: 14,),
 
                       Container(height: 250,
@@ -131,106 +132,43 @@ class _HomeState extends State<Home> {
                        child:
                        Padding(
                          padding: const EdgeInsets.all(8),
-                         child: Row(
-                             children: [
+                         child: SingleChildScrollView(
+                           scrollDirection: Axis.horizontal,
+                           child: Row( mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                               children: [
 
-                           Container(
-                             width: 88,
-                             decoration:
-                             BoxDecoration(
-                               color: Colors.grey.withOpacity(0.5),
-                               borderRadius: BorderRadiusDirectional.circular(30),
-                               border: Border.all(width: 1,color: Colors.white),),
-                             child: Padding(
-                               padding: const EdgeInsets.only(top: 10,left: 3,right: 3),
-                               child: Center(
-                                 child:
-                                 Column(
-                                   mainAxisAlignment: MainAxisAlignment.center,
-                                   children: [
-                                     Text(DateFormat('EEEE').format(DateTime.parse((snapshot.data?.list.elementAt(8).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-                                     Text(" ${(snapshot.data!.list.elementAt(8).main.temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                                     Image.network(
-                                       'https://openweathermap.org/img/wn/${snapshot.data?.list.elementAt(8).weather.first.icon}@2x.png'),
-                                     Text("${snapshot.data?.list.elementAt(8).weather.first.description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
+                                 WeatherDetails(
+                                     snapshot.data!.list.elementAt(8).dt_txt ,
+                                     snapshot.data!.list.elementAt(8).main.temp,
+                                     snapshot.data!.list.elementAt(8).weather.first.icon ,
+                                     snapshot.data!.list.elementAt(8).weather.first.description),
+                                 SizedBox(width: 20,),
 
-                                   ],),
-                               ),
-                             ),),
+                                 WeatherDetails(
+                                     snapshot.data!.list.elementAt(16).dt_txt ,
+                                     snapshot.data!.list.elementAt(16).main.temp,
+                                     snapshot.data!.list.elementAt(16).weather.first.icon ,
+                                     snapshot.data!.list.elementAt(16).weather.first.description),
+                                 SizedBox(width: 20,),
 
-                               Container(
-                                 width: 88,
-                                 decoration:
-                                 BoxDecoration(
-                                   color: Colors.grey.withOpacity(0.5),
-                                   borderRadius: BorderRadiusDirectional.circular(30),
-                                   border: Border.all(width: 1,color: Colors.white),),
-                                 child: Padding(
-                                   padding: const EdgeInsets.only(top: 10,bottom:15 ,left: 3,right: 3),
-                                   child: Center(
-                                     child: Column(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Text(DateFormat('EEEE').format(DateTime.parse((snapshot.data?.list.elementAt(16).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-                                         Text(" ${(snapshot.data!.list.elementAt(16).main.temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                                         Image.network(
-                                             'https://openweathermap.org/img/wn/${snapshot.data?.list.elementAt(16).weather.first.icon}@2x.png'),
-                                         Text("${snapshot.data?.list.elementAt(16).weather.first.description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-
-                                       ],),
-                                   ),
-                                 ),),
-                               Container(
-                                 width: 88,
-                                 decoration:
-                                 BoxDecoration(
-                                   color: Colors.grey.withOpacity(0.5),
-                                   borderRadius: BorderRadiusDirectional.circular(30),
-                                   border: Border.all(width: 1,color: Colors.white),),
-                                 child: Padding(
-                                   padding: const EdgeInsets.only(top: 10,left: 3,right: 3),
-                                   child: Center(
-                                     child: Column(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Text(DateFormat('EEEE').format(DateTime.parse((snapshot.data?.list.elementAt(24).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-                                         Text(" ${(snapshot.data!.list.elementAt(24).main.temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                                         Image.network(
-                                             'https://openweathermap.org/img/wn/${snapshot.data?.list.elementAt(24).weather.first.icon}@2x.png'),
-                                         Text("${snapshot.data?.list.elementAt(24).weather.first.description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-
-                                       ],),
-                                   ),
-                                 ),),
-                               Container(
-                                 width: 88,
-                                 decoration:
-                                 BoxDecoration(
-                                   color: Colors.grey.withOpacity(0.5),
-                                   borderRadius: BorderRadiusDirectional.circular(30),
-                                   border: Border.all(width: 1,color: Colors.white),),
-                                 child: Padding(
-                                   padding: const EdgeInsets.only(top: 10,bottom:15,left: 3,right: 3),
-                                   child: Center(
-                                     child: Column(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Text(DateFormat('EEEE').format(DateTime.parse((snapshot.data?.list.elementAt(32).dt_txt).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-                                         Text(" ${(snapshot.data!.list.elementAt(32).main.temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
-                                         Image.network(
-                                             'https://openweathermap.org/img/wn/${snapshot.data?.list.elementAt(32).weather.first.icon}@2x.png'),
-                                         Text("${snapshot.data?.list.elementAt(32).weather.first.description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
-
-                                       ],),
-                                   ),
-                                 ),),
+                                 WeatherDetails(
+                                     snapshot.data!.list.elementAt(24).dt_txt ,
+                                     snapshot.data!.list.elementAt(24).main.temp,
+                                     snapshot.data!.list.elementAt(24).weather.first.icon ,
+                                     snapshot.data!.list.elementAt(24).weather.first.description),
+                                 SizedBox(width: 20,),
+                                 WeatherDetails(
+                                     snapshot.data!.list.elementAt(32).dt_txt ,
+                                     snapshot.data!.list.elementAt(32).main.temp,
+                                     snapshot.data!.list.elementAt(32).weather.first.icon ,
+                                     snapshot.data!.list.elementAt(32).weather.first.description),
 
 
-                         ]
+                           ]
+                           ),
                          ),
                        ),
                       ),
-
 
                     ],),
                   ),
@@ -255,6 +193,30 @@ class _HomeState extends State<Home> {
 
     DateTime toDate(String?date ) {
     return DateTime.parse(date!);
+    }
+
+
+    WeatherDetails ( String date , double temp , String icon , String description ){
+      return Container( width: 120,
+        decoration:
+        BoxDecoration(
+          color: Colors.grey.withOpacity(0.5),
+          borderRadius: BorderRadiusDirectional.circular(30),
+          border: Border.all(width: 1,color: Colors.white),),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(DateFormat('EEEE').format(DateTime.parse((date).toString())),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
+              Text(" ${(temp - 273.15).round()}\u2103",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)),
+              Image.network(
+                  'https://openweathermap.org/img/wn/${icon}@2x.png'),
+              Text("${description}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)),
+
+        ],),
+    ),
+  );
     }
 
 
